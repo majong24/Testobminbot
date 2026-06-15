@@ -138,11 +138,22 @@ async def publish_course(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=CHANNEL_ID, text=post)
     await update.message.reply_text("✅ Курс опубліковано в канал!", reply_markup=main_keyboard())
 
-async def main():
+async def auto_publish(context):
+    with open("6BCDAD66-6AD8-4EEF-A5E7-3629C0D5A573.png", "rb") as photo:
+        await context.bot.send_photo(
+            chat_id=CHANNEL_ID,
+            photo=photo,
+            caption="💱 Актуальний курс валют"
+        )
+        async def main():
     app = Application.builder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    app.job_queue.run_daily(
+    auto_publish,
+    time=time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Kyiv"))
+)
 
     print("Бот обменника запущен")
     await app.initialize()
