@@ -145,15 +145,16 @@ async def auto_publish(context):
             photo=photo,
             caption="💱 Актуальний курс валют"
         )
-        async def main():    
-        app = Application.builder().token(BOT_TOKEN).build()
+        async def main():
+    app = Application.builder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
     app.job_queue.run_daily(
-    auto_publish,
-    time=time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Kyiv"))
-)
+        auto_publish,
+        time=time(hour=8, minute=0, tzinfo=ZoneInfo("Europe/Kyiv"))
+    )
 
     print("Бот обменника запущен")
     await app.initialize()
