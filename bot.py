@@ -145,7 +145,7 @@ async def auto_publish(context):
             photo=photo,
             caption="💱 Актуальний курс валют"
         )
-        async def main():
+async def main():
     app = Application.builder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
